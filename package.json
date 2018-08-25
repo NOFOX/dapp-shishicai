@@ -1,0 +1,36 @@
+{
+  "name": "eosshishicai",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "start": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "bootstrap-vue": "^2.0.0-rc.11",
+    "browserify-aes": "^1.2.0",
+    "bytebuffer": "^5.0.1",
+    "clipboard": "^2.0.1",
+    "css-loader": "^1.0.0",
+    "eosjs": "^16.0.6",
+    "eosjs-ecc": "^4.0.4",
+    "readable-stream": "^3.0.2",
+    "setimmediate": "^1.0.5",
+    "vue": "^2.5.17",
+    "vue-i18n": "^8.0.0",
+    "vue-infinite-scroll": "^2.0.2",
+    "vue-loader": "^15.4.0",
+    "vue-router": "^3.0.1",
+    "websocket": "^1.0.26"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.0",
+    "@vue/cli-plugin-eslint": "^3.0.0",
+    "@vue/cli-service": "^3.0.0",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.1",
+    "vue-template-compiler": "^2.5.17"
+  }
+}

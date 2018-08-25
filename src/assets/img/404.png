@@ -1,0 +1,8 @@
+module.exports = __webpack_public_path__ + "static/img/404.4941459.png";
+
+
+//////////////////
+// WEBPACK FOOTER
+// ./src/assets/img/404.png
+// module id = NeAH
+// module chunks = 1
