@@ -19,7 +19,7 @@ export default {
   justify-content: center;
   align-items: center;
   height:100vh;
-  /* background: url(../assets/img/404-bg.jpg); */
+  background: url(../assets/img/404-bg.jpg);
   background-size: cover;
 }
 span {
@@ -29,3 +29,8 @@ span {
   color:#fff;
 }
 </style>
+
+
+
+// WEBPACK FOOTER //
+// src/components/E404.vue

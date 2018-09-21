@@ -1,6 +1,6 @@
 <template>
   <div>
-      {{strTime}}
+    <span>{{currentNum}} <font>{{strTime}}</font></span>
   </div>
 </template>
 
@@ -11,6 +11,9 @@ export default {
     return {
         intSeconds: 0 
     }
+  },
+  props: {
+    currentNum: null
   },
   methods:{
       setSeconds(seconds){
@@ -44,6 +47,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+span {
+  color: #e5c25e;
+}
+span font {
+  margin-left: 10px;
+  color: #fff;
+}
 </style>
 
 

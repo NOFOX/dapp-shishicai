@@ -1,12 +1,12 @@
 <template>
-  <div class="divMain">
-    <div class="divTitle">
+  <div class="resultDivMain">
+    <div class="user-title">
       {{$t("openResult")}}
     </div>
     <div class="divContent align-items-center">
       <div class="gaming-title"><span>{{currentNum}}</span>{{$t("betTime")}}</div>
       <div class="gaming-time">
-        <Countdown class="lin_remainTime" ref="refCountdown" />
+        <!-- <Countdown class="lin_remainTime" ref="refCountdown" /> -->
       </div>
       <div class="gaming-title"><span>{{resultNum}}</span>{{$t("resultNumber")}}</div>
       <div class="gaming-number">
@@ -36,10 +36,10 @@ export default {
   computed:{
   },
   methods:{
-    setSeconds(val){
-      //console.log("===============> set countdown time")
-      this.$refs.refCountdown.setSeconds(val)
-    },
+    // setSeconds(val){
+    //   //console.log("===============> set countdown time")
+    //   this.$refs.refCountdown.setSeconds(val)
+    // },
     slotNums(val){
       //console.log("===============> set slot nums")
       this.$refs.refSlots.slotNums(val)
@@ -52,11 +52,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.divMain {
+.resultDivMain{
     font-size: 13px;
     text-align:center;
-    /* background: url(../assets/img/bg-game.png) 0 0 no-repeat; */
-    width: 355px;
+    background: url(../assets/img/bg-game.png) 0 0 no-repeat;
+    width: 456px;
     height: 291px;
     display:flex;
     flex-direction: column;
@@ -77,7 +77,7 @@ export default {
     margin-top: 20px;
     margin-bottom: 10px;
     text-align: center;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
     color: #e5c25e;
 }
@@ -89,7 +89,7 @@ export default {
 .gaming-time,.gaming-number {
     background-color: #1a1f27;
     height: 60px;
-    margin-left:5px;
+    margin-left:6px;
     margin-right:7px;
 }
 .lin_remainTime {

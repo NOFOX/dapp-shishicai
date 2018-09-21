@@ -1,196 +1,251 @@
 <template>
-  <div class="divContainer">
+<div class="eos-result">
+  <div class="eos-result-border">
+    <section class="eos-result-header clearfix">
+        <span v-text="$t('eosBlock')"></span>
+        <Countdown class="v2-time" ref="refCountdown" :currentNum="currentNum" />
+    </section>
+    <!-- <table class="result-datas result-datas-eos" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th width='90'>区块号</th>
+                <th>id</th>
+                <th width='140'>时间</th>
+            </tr>
+        </thead>
+    </table> -->
     <div class="divTbbg left_top flipx"></div>
+    <div class="divTbbg left_bottom"></div>
     <div class="divTbbg right_top"></div>
     <div class="divTbbg right_bottom flipy"></div>
-    <div class="divMain">
-      <div class="divContent">
-        <transition-group name="list-complete" tag="p">
-          <div class="divRow list-complete-item" v-bind:key="block.num" v-for="block in blocks">
-            <div class="divNum" v-text="block.num"></div>
-            <div class="divId" v-html="block.idHtml"></div>
-            <div v-if="block.lastChar == ''" class="divId" v-text="block.id"></div>
-            <div v-else class="divId">{{block.id.substr(0,block.id.length-1)}}<span v-text="block.lastChar"></span></div>
-            <div class="divTime">{{block.time | blocktime2localtime}}</div>
-            <div v-if="block.showQh" class="divQh"><span  v-text="currentNum - 1"></span></div>
-          </div>
-        </transition-group>
+    <div class="divContainer">
+      <div class="resultDivMain">
+        <div class="divContent" @mouseenter="pauseData=true" @mouseleave="pauseData=false;leaveContent()">
+          <transition-group name="list-complete" tag="p">
+            <div class="divRow list-complete-item" @click="show(block.num)" v-bind:key="block.num" v-for="block in blocks">
+              <div class="divNum" v-text="block.num"></div>
+              <div v-if="block.lastChar == ''" class="divId divId-fix" v-text="block.id"></div>
+              <div v-else class="divId divId-fix">{{block.id.substr(0,block.id.length-1)}}<span v-text="block.lastChar"></span></div>
+              <div class="divTime">{{block.time | blocktime2localtime}}</div>
+              <div v-if="block.showQh" class="divQh"><span  v-text="currentNum - 1"></span></div>
+            </div>
+          </transition-group>
+        </div>
       </div>
     </div>
   </div>
+</div>
+  
 </template>
 
 <script>
-import Comm from '../comm.js'
+import Countdown from "./Countdown";
+import Comm from "../comm.js";
+import { bus } from "../bus";
+import { RESULTTIME } from "../comm";
 const MAXLISTCOUNT = 15;
 export default {
-  name: 'HackList',
-  data () {
+  name: "HackList",
+  data() {
     return {
       blocks: [],
+      result: "     ",
+      tmpBlocks: [],
+      pauseData: false,
       currentNum: 0,
-      result:"     ",
-    }
+    };
   },
-  computed: {
-  },
+  components: { Countdown },
+  computed: {},
   methods: {
-    newData(data){
-      for(var block of this.blocks){
-        if(block.num == data.num){
-          // repeate
-          if(block.time < data.time){
-            block.id=data.id
-            block.time=data.time
+    show(num){
+      window.open('https://bloks.io/block/'+num, '_blank');
+    },
+    setSeconds(val) {
+      //console.log("===============> set countdown time")
+      this.$refs.refCountdown.setSeconds(val);
+    },
+    leaveContent() {
+      // pop tmp
+      for(var block of this.tmpBlocks){
+        var repeate = false
+        for (var rblock of this.blocks) {
+          if (rblock.num == block.num) {
+            // repeate
+            if (rblock.time < block.time) {
+              rblock.id = block.id;
+              rblock.id = '...'+block.id.substr(20)
+              rblock.time = block.time;
+            }
+            console.log("repeate block founded");
+            repeate = true
+            break
           }
-          console.log("repeate block founded")
-          return
+        }
+        if(!repeate)
+          this.blocks.splice(0, 0, block)
+      }
+      this.tmpBlocks = []
+    },
+    newData(data) {
+      for (var block of this.blocks) {
+        if (block.num == data.num) {
+          // repeate
+          if (block.time < data.time) {
+            block.id = '...' + data.id.substr(20)
+            block.time = data.time;
+          }
+          console.log("repeate block founded");
+          return;
         }
       }
-      var rNum = Comm.BlockTime2Qh(data.time)
+      var rNum = Comm.BlockTime2Qh(data.time);
       // insert result
-      if (this.currentNum == 0){
-        // first time
-        this.currentNum = rNum
-      }else if(rNum > this.currentNum){
+      if (this.currentNum > 0 && rNum > this.currentNum) {
         // new round
-        data.showQh = true
         this.currentNum = rNum
-        this.result = ""
+        this.setSeconds( RESULTTIME / 1000);
+        data.showQh = true;
+        this.result = "";
       }
-          data.lastChar = "" 
+      data.lastChar = "";
       //data.idHtml=data.id.substr(0,data.id.length-1)+"<span style='color:#0f0;font-weight:bold;font-size:16px;text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #B6FF00,0 0 35px #B6FF00,0 0 40px #B6FF00,0 0 50px #B6FF00,0 0 75px #B6FF00;text-shadow:2px 2px 3px #fff'>"+data.id.substr(data.id.length-1)+"</span>"
-      if (this.result.length < 5){
-        let lastChar = Comm.GetLastChar(data.id)
-        if(lastChar!=''){
-          this.result+=lastChar
+      if (this.result.length < 5) {
+        let lastChar = Comm.GetLastChar(data.id);
+        if (lastChar != "") {
+          this.result += lastChar;
           //data.idHtml=data.id.substr(0,data.id.length-1)+"<span style='color:#0f0;font-weight:bold;font-size:16px;text-shadow:0 0 3px #fff'>"+lastChar+"</span>"
-          data.lastChar = lastChar
+          data.lastChar = lastChar;
         }
       }
-      this.blocks.splice(0,0,data)
-      if(this.blocks.length>MAXLISTCOUNT){
-        this.blocks.splice(MAXLISTCOUNT,this.blocks.length-MAXLISTCOUNT)
+      data.id='...'+data.id.substr(20)
+      if(this.pauseData){
+        // save to tmp
+        this.tmpBlocks.push(data)
+        return
+      }
+      this.blocks.splice(0, 0, data);
+      if (this.blocks.length > MAXLISTCOUNT) {
+        this.blocks.splice(MAXLISTCOUNT, this.blocks.length - MAXLISTCOUNT);
       }
     },
-    BlockTime2Qh: Comm.BlockTime2Qh,
   },
   filters: {
-    blocktime2localtime(value){
-      return Comm.BlockTime2LocalTime(value,"hh:mm:ss.SSS").substr(0,10)
+    blocktime2localtime(value) {
+      return Comm.BlockTime2LocalTime(value, "hh:mm:ss.SSS").substr(0, 10);
     }
   },
-}
+  mounted () {
+    bus.$on("eventEosGetInfo",(result) => {
+      var ltime =Comm.BlockTime2DateTime(result.head_block_time);
+      this.currentNum = Comm.DateTime2Qh(ltime);
+      this.setSeconds((RESULTTIME - ltime % RESULTTIME) / 1000)
+      bus.$on("eventNewData", data => {
+        //console.log("event NewData: "+data)
+        this.newData(data);
+      });
+      bus.$on("eventNewRound", result => {
+        //console.log("event NewRound recevied: "+result.num)
+        this.currentNum = result.num + 1;
+        this.setSeconds( RESULTTIME / 1000);
+      });
+    })
+  }
+};
 </script>
 
 <style scoped>
 .divContainer {
-  position:relative;
-  padding:4px;
-  height: 291px;
+  position: relative;
+  height: 359px;
 }
-.divMain {
-  height:100%;
-  display:flex;
+.resultDivMain {
+  height: 100%;
+  display: flex;
   flex-direction: column;
-  font-family: "微软雅黑", "Microsoft Yahei", "宋体", "Helvetica", "Arial", "simsun";
+  font-family: "微软雅黑", "Microsoft Yahei", "宋体", "Helvetica", "Arial",
+    "simsun";
   font-size: 12px;
-  border: 1px solid #10b3f9;
-  overflow:hidden;
+  /* border: 1px solid #10b3f9; */
+  overflow: hidden;
 }
 
 .divTitle {
   padding-left: 20px;
   line-height: 40px;
   color: #73bdff;
-  text-align:left;
+  text-align: left;
   font-size: 18px;
   font-weight: bold;
-  /* background-image: url(../assets/img/tb_bg_title.png); */
+  background-image: url(../assets/img/tb_bg_title.png);
 }
-.divTitle span{
-  margin-left:5px;
+.divTitle span {
+  margin-left: 5px;
   font-size: 14px;
-}
-.divTbbg{
-  position:absolute;
-  width:64px;
-  height:60px;
-  /* background-image: url(../assets/img/tb_rt.png); */
-}
-.left_top{
-  left:0px;
-  top:0px;
-}
-.right_top{
-  right:0px;
-  top:0px;
-}
-.right_bottom{
-  right:0px;
-  bottom:0px;
-}
-.divTbbg .right_bottom{
-  right:-10px;
-  bottom:-5px;
-}
-.flipx {
-  -moz-transform:scaleX(-1);
-  -webkit-transform:scaleX(-1);
-  -o-transform:scaleX(-1);
-  transform:scaleX(-1);
-  /*IE*/
-  filter:FlipH;
-}
-.flipy {
-  -moz-transform:scaleY(-1);
-  -webkit-transform:scaleY(-1);
-  -o-transform:scaleY(-1);
-  transform:scaleY(-1);
-  /*IE*/
-  filter:FlipV;
 }
 .divContent {
   font-family: "Consolas", Monaco, monospace;
-  line-height: 20px;
   text-align: center;
   font-size: 14px;
   color: #448844;
-  background-color:#000;
-  height:100%;
+  height: 100%;
+  line-height: 24px;
+  background-color: #000;
 }
 .divRow {
-  display:flex;
+  display: flex;
   position: relative;
+  height: 24px;
 }
-.divNum, .divId, .divTime {
-  padding-left:6px;
+.divNum,
+.divTime {
+  padding: 0 10px;
 }
-.divNum, .divTime {
-  color:#888888;
+.divRow .divId-fix {
+  width: 425px;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-indent: -200px;
 }
-.divQh{
-  position: absolute; right:150px; top: 50%;
+.divNum,
+.divTime {
+  color: #888888;
+}
+.divQh {
+  position: absolute;
+  right: 180px;
+  top: 50%;
   transform: translate(0, -50%);
   width: 90px;
   height: 39px;
-  /* background: url(../assets/img/bg_qh.png) center center no-repeat; */
+  background: url(../assets/img/bg_qh.png) center center no-repeat;
   background-size: 90px 39px;
-  text-align:left;
+  text-align: left;
+  font-size: 14px;
 }
-.divQh span{
-  margin-left:8px;
-  color:#10b3f9;font-weight:bold;
+.divQh span {
+  margin-left: 8px;
+  color: #10b3f9;
+  font-weight: bold;
   line-height: 39px;
 }
-.divId span{
-  color:#0f0;font-weight:bold;font-size:16px;text-shadow:0 0 3px #fff;
+.divRow .divId-fix span {
+  color: #0f0;
+  font-weight: bold;
+  font-size: 16px;
+  text-shadow: 0 0 3px #fff;
 }
 .list-complete-item {
-  transition: all .5s linear;
+  transition: transform 0.5s linear;
+}
+.list-complete-item:hover {
+  cursor:pointer;
+  color: #88ff88;
 }
 .list-complete-enter {
-  transform: translateY(-20px);
+  transform: translateY(-24px);
 }
 </style>
 

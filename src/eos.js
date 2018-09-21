@@ -1,4 +1,3 @@
-
 import EosApi from 'eosjs'
 export const EOSNETWORK = {
   protocol:'https', // Defaults to https

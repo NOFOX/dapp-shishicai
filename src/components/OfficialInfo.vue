@@ -1,8 +1,8 @@
 <template>
-  <div class="divMain">
-    <div class="title">
+  <div class="web-info">
+    <!-- <div class="user-title">
       {{$t("officialAccount")}}
-    </div>
+    </div> -->
     <div class="divInfo">
       <div class="divInfoRow">
         <i class="fas fa-user bgcircle"></i>
@@ -18,20 +18,23 @@
         <i class="fas fa-university bgcircle"></i>
         <span>{{$t("betLimit")}}</span>
         <div class="divPct">
+          <div class='divLimit'>
+            <span v-text="tweenedLimitBet.toFixed(0)"></span> / <strong v-text="parseFloat(limitLimit).toFixed(0)"></strong>
+          </div>
           <ProgressBar :width="210" :height="15" :setPct="limitPct" :color="pctColor(limitPct)"/>
           <span v-text="tweenedLimitPct.toFixed(0)+'%'" :style="{color:pctColor(limitPct)}"></span>
         </div>
       </div>
-      <div class="divInfoRow divLimit">
+      <!-- <div class="divInfoRow divLimit">
         <span v-text="tweenedLimitBet.toFixed(4)"></span> / <strong v-text="bet_limit?bet_limit.limit:'0 EOS'"></strong>
-      </div>
+      </div> -->
       <div class="divInfoRow divInfoRowPct">
-        <i class="fas fa-save bgcircle" alt="RAM"></i>
-        <ProgressCircle class="pctcircle" :width="60" :border="20" :fontSize="60" :setPct="ramPct" :color="pctColor(ramPct)"/>
+        <i class="fas fa-save bgcircle"></i>
+        <ProgressCircle class="pctcircle" :width="45" :border="25" :fontSize="56" :setPct="ramPct" :color="pctColor(ramPct)"/>
         <i class="fas fa-microchip bgcircle"></i>
-        <ProgressCircle class="pctcircle" :width="60" :border="20" :fontSize="60" :setPct="cpuPct" :color="pctColor(cpuPct)"/>
+        <ProgressCircle class="pctcircle" :width="45" :border="25" :fontSize="56" :setPct="cpuPct" :color="pctColor(cpuPct)"/>
         <i class="fas fa-globe bgcircle"></i>
-        <ProgressCircle class="pctcircle" :width="60" :border="20" :fontSize="60" :setPct="netPct" :color="pctColor(netPct)"/>
+        <ProgressCircle class="pctcircle" :width="45" :border="25" :fontSize="56" :setPct="netPct" :color="pctColor(netPct)"/>
       </div>
     </div>
   </div>
@@ -86,6 +89,9 @@ export default {
     }
   },
   computed:{
+    limitLimit: function() {
+      return this.bet_limit ? Comm.GetBalanceFromAsset(this.bet_limit.limit) : 0
+    },
     limitBet: function() {
       return this.bet_limit ? Comm.GetBalanceFromAsset(this.bet_limit.bet) : 0
     },
@@ -163,32 +169,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.divMain {
-  font-size: 13px;
-  text-align:center;
-  /* background: url(../assets/img/bg-user.png) no-repeat; */
-  background-size: 387px 291px;
-  width: 387px;
-  height: 291px;
-  display:flex;
-  flex-direction: column;
-}
-.title {
-  margin-top: 10px;
-  margin-left: 10px;
-  color:#eee;
-  width: 80px;
-  font-size: 18px;
-  font-weight: bold;
-}
-
 .divInfo .divInfoRow {
   font-family: "微软雅黑", "Microsoft Yahei", "宋体", "Helvetica", "Arial", "simsun";
   color: #6fcbe7;
   font-size: 14px;
   line-height: 24px;
   font-weight: bold;
-  margin-top: 16px;
+  margin-top: 10px;
   margin-left: 20px;
   display:flex;
   align-items: center;
@@ -197,23 +184,23 @@ export default {
 }
 .divInfo .divInfoRow.divInfoRowPct {
   margin-top: 10px;
-  height: 80px;
+  height: 42px;
 }
 .divInfoRow img {
   margin-top:60px;
   margin-left:15px;
 }
 .pctcircle {
-  margin-left: 12px;
-  margin-right: 26px;
+  margin-left: 5px;
+  margin-right: 8px;
 }
 .divInfo .divLimit {
-  margin-top: 0;
+  position: absolute;
+  top: 0px;
+  right: 40px;
   text-align: right;
   font-size: 16px;
   font-weight: bold;
-  padding-right: 45px;
-  display:block;
 }
 .divInfo .divLimit span{
   color: #ccc;
@@ -225,9 +212,9 @@ export default {
 }
 .bgcircle{
   text-align:center;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
   color:#17315a;
   background: #6fcbe7;;
   -moz-border-radius: 12px;
@@ -235,11 +222,12 @@ export default {
   border-radius: 12px;
 }
 .divInfo .divPct {
+  position: relative;
   display:flex;
   align-items: center;
   border: 1px solid #2793ec;
   height: 24px;
-  width:250px;
+  width:145px;
   padding:5px;
   color: #e5c25e;
 }

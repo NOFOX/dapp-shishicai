@@ -253,7 +253,7 @@ export default {
   height: 295px;
   margin: 0px auto;
   padding: 17px 32px;
-  /* background-image: url(../assets/img/dialog_good_bg.png); */
+  background-image: url(../assets/img/dialog_good_bg.png);
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
@@ -261,7 +261,7 @@ export default {
   color:#fff;
 }
 .modal-container.error {
-  /* background-image: url(../assets/img/dialog_bad_bg.png); */
+  background-image: url(../assets/img/dialog_bad_bg.png);
 }
 .close {
   position: absolute;
@@ -269,22 +269,22 @@ export default {
   top:0px;
   width: 70px;
   height: 61px;
-  /* background-image: url(../assets/img/dialog_good_close.png); */
+  background-image: url(../assets/img/dialog_good_close.png);
 }
 .modal-container.error .close{
-  /* background-image: url(../assets/img/dialog_bad_close.png); */
+  background-image: url(../assets/img/dialog_bad_close.png);
 }
 .modal-title {
   color: #8ac4fe;
   height: 46px;
-  /* background-image: url(../assets/img/dialog_good_title.png); */
+  background-image: url(../assets/img/dialog_good_title.png);
   background-repeat: no-repeat;
   font-weight: bold;
   line-height: 46px;
 }
 .modal-container.error .modal-title{
   color: #e53863;
-  /* background-image: url(../assets/img/dialog_bad_title.png); */
+  background-image: url(../assets/img/dialog_bad_title.png);
 }
 .modal-body {
   margin:0px;
@@ -321,14 +321,14 @@ export default {
 .modal-default-button {
   color: #d5eaff;
   cursor: pointer;
-  /* background-image: url(../assets/img/dialog_good_bt.png); */
+  background-image: url(../assets/img/dialog_good_bt.png);
   width: 349px;
   height: 75px;
   line-height: 75px;
 }
 .modal-container.error .modal-default-button{
   color: #e53863;
-  /* background-image: url(../assets/img/dialog_bad_bt.png); */
+  background-image: url(../assets/img/dialog_bad_bt.png);
 }
 
 /*

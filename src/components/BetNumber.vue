@@ -51,10 +51,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .divTitle{
-    width: 60px;
+    width: 22px;
+    padding-left: 4px;
     color: #eee;
     font-weight:bold;
-    font-size: 18px;
+    font-size: 12px;
     line-height:40px;
 }
 .divNumbers{
@@ -62,22 +63,20 @@ export default {
     margin:0px;
 }
 .divNumber{
-    margin:3px;
+    margin:4px;
 }
 .divNumber label{
-    font-family: "Consolas", Monaco, monospace;
     font-size:18px;
-    font-weight:bold;
-    border-radius: 3px;
-    width:40px;
-    height:40px;
+    width:36px;
+    height:36px;
     display: inline-block;
     text-align: center;
     vertical-align: middle;
-    line-height: 40px;
+    line-height: 36px;
     border: 1px solid #2f456a;
     background-color: #2f456a;
     color: #2793ec;
+    margin-bottom: 0;
 }
 .divNumber label:hover{
     cursor:pointer;
@@ -97,9 +96,13 @@ export default {
 }
 .divControl button {
     width: 60px;
-    margin-left:10px;
-    margin-right:10px;
+    margin:0 0 0 5px;
+    height: 36px;
+    padding: 0;
+    color: #fff;
+    background: #1a5a97;
 }
+.divControl button:hover{ background: #149afe;}
 </style>
 
 

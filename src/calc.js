@@ -52,3 +52,8 @@ function test(){
   console.log(getBetCount(str))
 }
 export var GetBetCount = getBetCount
+
+
+
+// WEBPACK FOOTER //
+// ./src/calc.js

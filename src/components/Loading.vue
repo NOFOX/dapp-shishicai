@@ -25,7 +25,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .spinner {
-  margin: 100px auto;
   width: 50px;
   height: 60px;
   text-align: center;
@@ -84,6 +83,9 @@ export default {
   bottom: 0;
   background-color: rgba(29, 29, 52, .6);
   transition: opacity .3s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 </style>
 

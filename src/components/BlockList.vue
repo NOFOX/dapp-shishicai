@@ -89,7 +89,7 @@ export default {
   text-align:left;
   font-size: 18px;
   font-weight: bold;
-  /* background-image: url(../assets/img/tb_bg_title.png); */
+  background-image: url(../assets/img/tb_bg_title.png);
 }
 .divTitle span{
   margin-left:5px;
@@ -99,7 +99,7 @@ export default {
   position:absolute;
   width:64px;
   height:60px;
-  /* background-image: url(../assets/img/tb_rt.png); */
+  background-image: url(../assets/img/tb_rt.png);
 }
 .left_top{
   left:0px;

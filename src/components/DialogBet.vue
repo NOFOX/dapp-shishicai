@@ -61,7 +61,7 @@ export default {
 <style scoped>
 .modal-mask {
   position: fixed;
-  z-index: 9998;
+  z-index: 9999;
   top: 0;
   left: 0;
   width: 100%;
@@ -84,7 +84,7 @@ export default {
   height: 295px;
   margin: 0px auto;
   padding: 17px 32px;
-  /* background-image: url(../assets/img/dialog_good_bg.png); */
+  background-image: url(../assets/img/dialog_good_bg.png);
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
@@ -97,12 +97,12 @@ export default {
   top:0px;
   width: 70px;
   height: 61px;
-  /* background-image: url(../assets/img/dialog_good_close.png); */
+  background-image: url(../assets/img/dialog_good_close.png);
 }
 .modal-title {
   color: #8ac4fe;
   height: 46px;
-  /* background-image: url(../assets/img/dialog_good_title.png); */
+  background-image: url(../assets/img/dialog_good_title.png);
   background-repeat: no-repeat;
   font-weight: bold;
   line-height: 46px;
@@ -158,7 +158,7 @@ export default {
 .modal-default-button {
   color: #d5eaff;
   cursor: pointer;
-  /* background-image: url(../assets/img/dialog_good_bt.png); */
+  background-image: url(../assets/img/dialog_good_bt.png);
   width: 349px;
   height: 75px;
   line-height: 75px;

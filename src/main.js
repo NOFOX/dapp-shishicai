@@ -7,12 +7,13 @@ import E404 from './components/E404'
 import How from './components/How'
 import Link from './components/Link'
 import About from './components/About'
+import History from './components/History'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import './base.css' /*引入公共样式*/
 import i18n from './i18n'
 import './getblock.js'
 import VueRouter from 'vue-router'
-
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
@@ -21,6 +22,7 @@ Vue.config.productionTip = false
 const routes = [
   { path: '/',template:"<App />", component: App },
   { path: '/how',template:"<How />", component: How },
+  { path: '/history',template:"<History />", component: History },
   { path: '/link',template:"<Link />", component: Link },
   { path: '/link/:player',template:"<App />", component: App },
   { path: '/about',template:"<About />", component: About },

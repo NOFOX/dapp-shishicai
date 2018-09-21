@@ -13,128 +13,130 @@
 </template>
 
 <script>
-import { bus } from '../bus.js'
+import { bus } from "../bus.js";
 export default {
-  name: 'BetBSOE',
-  data () {
+  name: "BetBSOE",
+  data() {
     return {
       checkedNumbers: [],
-      numbers:[]
-    }
+      numbers: []
+    };
   },
   props: {
-    title:""
+    title: ""
   },
-  methods:{
-    resetNumbers (){
-      this.checkedNumbers = []
+  methods: {
+    resetNumbers() {
+      this.checkedNumbers = [];
     },
-    clickNumber(val){
-      if(val.srcElement.checked){
-        switch(val.srcElement.defaultValue){
+    clickNumber(val) {
+      if (val.srcElement.checked) {
+        switch (val.srcElement.defaultValue) {
           case "b":
             //console.log("switch to Big")
-            for(let num of this.checkedNumbers){
-              if(num == "s"){
-                num = "b"
-                break
+            for (let num of this.checkedNumbers) {
+              if (num == "s") {
+                num = "b";
+                break;
               }
             }
-            break
+            break;
           case "s":
             //console.log("switch to Small")
-            break
+            break;
           case "o":
             //console.log("switch to Odd")
-            break
+            break;
           case "e":
             //console.log("switch to Even")
-            break
+            break;
         }
       }
       //console.log(this.checkedNumbers)
     },
-    resetLang(){
-      this.numbers=[]
-      this.numbers=[{name:this.$t("bsoeBig"),val:"b"},{name:this.$t("bsoeSmall"),val:"s"},{name:this.$t("bsoeOdd"),val:"o"},{name:this.$t("bsoeEven"),val:"e"}]
+    resetLang() {
+      this.numbers = [];
+      this.numbers = [
+        { name: this.$t("bsoeBig"), val: "b" },
+        { name: this.$t("bsoeSmall"), val: "s" },
+        { name: this.$t("bsoeOdd"), val: "o" },
+        { name: this.$t("bsoeEven"), val: "e" }
+      ];
     }
   },
   watch: {
-    checkedNumbers:function(valNew,valOld){
-      var newBools = {"b":false,"s":false,"o":false,"e":false}
-      for(const num of valNew){
-        newBools[num]=true
+    checkedNumbers: function(valNew, valOld) {
+      var newBools = { b: false, s: false, o: false, e: false };
+      for (const num of valNew) {
+        newBools[num] = true;
       }
       // check rule
-      if((newBools["b"]&&newBools["s"])||(newBools["o"]&&newBools["e"])){
-        // fix  
-        var oldBools = {"b":false,"s":false,"o":false,"e":false}
-        for(const num of valOld){
-          oldBools[num]=true
+      if (
+        (newBools["b"] && newBools["s"]) ||
+        (newBools["o"] && newBools["e"])
+      ) {
+        // fix
+        var oldBools = { b: false, s: false, o: false, e: false };
+        for (const num of valOld) {
+          oldBools[num] = true;
         }
-        this.checkedNumbers = []
-        if(newBools["b"]&&newBools["s"]){
-          if(newBools["b"] ^ oldBools["b"])
-            this.checkedNumbers.push("b")
-          if(newBools["s"] ^ oldBools["s"])
-            this.checkedNumbers.push("s")
-        }else{
-          if(newBools["b"])
-            this.checkedNumbers.push("b")
-          if(newBools["s"])
-            this.checkedNumbers.push("s")
+        this.checkedNumbers = [];
+        if (newBools["b"] && newBools["s"]) {
+          if (newBools["b"] ^ oldBools["b"]) this.checkedNumbers.push("b");
+          if (newBools["s"] ^ oldBools["s"]) this.checkedNumbers.push("s");
+        } else {
+          if (newBools["b"]) this.checkedNumbers.push("b");
+          if (newBools["s"]) this.checkedNumbers.push("s");
         }
-        if(newBools["o"]&&newBools["e"]){
-          if(newBools["o"] ^ oldBools["o"])
-            this.checkedNumbers.push("o")
-          if(newBools["e"] ^ oldBools["e"])
-            this.checkedNumbers.push("e")
-        }else{
-          if(newBools["o"])
-            this.checkedNumbers.push("o")
-          if(newBools["e"])
-            this.checkedNumbers.push("e")
+        if (newBools["o"] && newBools["e"]) {
+          if (newBools["o"] ^ oldBools["o"]) this.checkedNumbers.push("o");
+          if (newBools["e"] ^ oldBools["e"]) this.checkedNumbers.push("e");
+        } else {
+          if (newBools["o"]) this.checkedNumbers.push("o");
+          if (newBools["e"]) this.checkedNumbers.push("e");
         }
         //console.log(newBools)
         //console.log(oldBools)
       }
       //console.log(this.checkedNumbers)
-      this.$emit("event-select-change",{title:this.title,numbers:this.checkedNumbers})
+      this.$emit("event-select-change", {
+        title: this.title,
+        numbers: this.checkedNumbers
+      });
     }
   },
-  mounted(){
-    this.resetLang()
-    bus.$on("eventChangeLanguage",() => {
-      this.resetLang()
-    })
+  mounted() {
+    this.resetLang();
+    bus.$on("eventChangeLanguage", () => {
+      this.resetLang();
+    });
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.divTitle{
-    width: 60px;
-    color: #eee;
-    font-weight:bold;
-    font-size: 18px;
-    line-height:40px;
+.divTitle {
+  width: 22px;
+  padding-left: 4px;
+  color: #eee;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 40px;
 }
-.divNumbers{
-  display:flex;
-  margin:0px;
+.divNumbers {
+  display: flex;
+  margin: 0px;
 }
-.divNumber{
-  margin:5px;
+.divNumber {
+  margin: 4px;
 }
-.divNumber label{
-  margin-right:20px;
-  font-family: "Consolas", Monaco, monospace;
-  font-size:18px;
-  font-weight:bold;
-  border-radius: 5px;
-  width:80px;
-  height:50px;
+.divNumber label {
+  margin-left: 10px;
+  margin-right: 13px;
+  font-size: 18px;
+  width: 80px;
+  height: 50px;
   display: inline-block;
   text-align: center;
   vertical-align: middle;
@@ -142,26 +144,34 @@ export default {
   border: 1px solid #2f456a;
   background-color: #2f456a;
   color: #2793ec;
+  margin-bottom: 0;
 }
-.divNumber label:hover{
-  cursor:pointer;
+.divNumber label:hover {
+  cursor: pointer;
   border-color: #10b3f9;
   background-color: #163d69;
 }
-.divNumber input{
-  display:none;
+.divNumber input {
+  display: none;
 }
-.divNumber input:checked + label{
+.divNumber input:checked + label {
   border-color: #10b3f9;
   background-color: #10b3f9;
   color: #fff;
 }
 .divControl {
-  margin:5px 10px;
+  margin: 0;
 }
 .divControl button {
-  width: 60px;
-  margin-left:88px;
+  width: 129px;
+  margin: 0 0 0 1px;
+  height: 50px;
+  padding: 0;
+  color: #fff;
+  background: #1a5a97;
+}
+.divControl button:hover {
+  background: #149afe;
 }
 </style>
 

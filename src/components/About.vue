@@ -1,20 +1,9 @@
 <template>
   <div>
-    <div v-if="$i18n.locale == 'zh'" class="divTele"><a href="https://t.me/eosshishicai" target="_blank" class="aTele"><img src="../assets/img/telegram.png" /><br /><span>有困难找组织</span></a></div>
+    <Tele />
     <section class="interface">
       <section class="interface-content">
-        <section class="header clearfix">
-          <div class="header__left">
-            <a href="/" class="logo"><img :src="$t('logoUrl')"/></a>
-            <button type="button" class="btn btn-link btn-sm language" @click="chgLanguage" v-text="$t('language')" onfocus="this.blur()"></button>
-          </div>
-          <nav class="menu clearfix">
-            <a href="/">{{$t("navPlay")}}</a>
-            <a href="/link">{{$t("navLink")}}</a>
-            <a href="/how">{{$t("navHow")}}</a>
-            <a href="#" class="current">{{$t("navAbout")}}</a>
-          </nav>
-        </section>
+        <Header />
         <div class="divMain">
           <b-carousel id="carousel1"
                       indicators
@@ -44,7 +33,7 @@
             </div>
             <div class="center">
               <div class="top">
-                采用区块号ID做为开奖结���<br />
+                采用区块号ID做为开奖结果<br />
                 公平公开公正<br />
                 无法篡改
               </div>
@@ -71,12 +60,18 @@
 </template>
 
 <script>
+import Header from "./Header";
+import Tele from "./Tele";
 export default {
   name: 'About',
+  components: {
+    Header,
+    Tele,
+  },
   data () {
     return {
       slide: 0,
-      sliding: null
+      sliding: null,
     }
   },
   methods: {
@@ -86,44 +81,12 @@ export default {
     onSlideEnd (slide) {
       this.sliding = false
     },
-    chgLanguage(){
-      if(this.$i18n.locale == 'en'){
-        this.$i18n.locale = 'zh'
-      }else{
-        this.$i18n.locale = 'en'
-      }
-      localStorage.setItem("lang",this.$i18n.locale)
-      document.title = this.$i18n.t("siteName")
-      bus.$emit("eventChangeLanguage")
-    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-body {
-  padding: 0px;
-  margin: 0px;
-  font-family: "微软雅黑", "Microsoft Yahei", "宋体", "Helvetica", "Arial", "simsun";
-  font-size: 12px;
-  font-weight: normal;
-  overflow-x: hidden;
-  background: url(../assets/img/bg-footer.png) center bottom no-repeat #0a092a;
-  min-height: 900px;
-}
-</style>
 <style scoped>
-.divTele {
-  position: fixed;
-  right: 15px;
-  bottom: 15px;
-  color: #10b3f9;
-}
-.aTele img {
-  width: 60px;
-  height: 60px;
-}
 .interface {
   margin: 30px auto;
   margin-bottom: 220px;
@@ -147,19 +110,6 @@ body {
   margin-left: 50px;
 }
 
-.language {
-  position: relative;
-  float: right;
-  margin-right: 60px;
-  display: inline;
-  font-size: 14px;
-  color: #fff;
-  font-weight: bold;
-  margin-top: 14px;
-}
-.language:hover{
-  color:#fff;
-}
 
 .menu {
   float: left;
@@ -194,6 +144,7 @@ body {
   padding:0;
   color: #3ca3d8;
   text-align: center;
+  height: 1490px;
 }
 .t1 {
   margin-top: 30px;
@@ -215,14 +166,14 @@ body {
 .divGood .side .top {
   width: 317px;
   height: 309px;
-  /* background:url(../assets/img/about_bg1.png); */
+  background:url(../assets/img/about_bg1.png);
   overflow:hidden;
 }
 .divGood .side .bottom {
   margin-top: 20px;
   width: 317px;
   height: 225px;
-  /* background:url(../assets/img/about_bg2.png); */
+  background:url(../assets/img/about_bg2.png);
   overflow:hidden;
 }
 .divGood .center {
@@ -235,7 +186,7 @@ body {
 .divGood .center .bottom {
   width: 317px;
   height: 450px;
-  /* background:url(../assets/img/about_bg3.png); */
+  background:url(../assets/img/about_bg3.png);
   overflow:hidden;
 }
 .divGood .title {
@@ -245,7 +196,7 @@ body {
   width: 273px;
   height: 52px;
   line-height: 52px;
-  /* background:url(../assets/img/about_title_bg.png); */
+  background:url(../assets/img/about_title_bg.png);
 }
 .divGood .content{
   padding-left:25px;
